@@ -7,7 +7,7 @@ export default function LoginPage() {
 			<div className="pointer-events-none absolute bottom-[-16%] right-[6%] h-96 w-96 rounded-full bg-[#FFD478]/40 blur-[100px]" />
 			<section className="relative z-10 grid w-full max-w-[880px] overflow-hidden rounded-[19px] border border-[#bdd09d] bg-white shadow-[0_8px_30px_rgba(68,91,47,0.06)] sm:min-h-[550px] sm:grid-cols-[1.02fr_1fr]" aria-label="Login form">
 				<div className="flex flex-col items-center justify-center px-7 py-10 sm:px-10 sm:py-8">
-					<h1 className="mb-6 ml-7 text-[48px] font-normal tracking-[-0.02em] text-[#296503]">LOGIN</h1>
+					<h1 className="mb-6 ml-10 text-[48px] font-normal tracking-[-0.02em] text-[#296503]">LOGIN</h1>
 					<form className="ml-10 flex w-full max-w-[300px] flex-col" aria-label="Login">
 						<label className="mb-0.5 text-[20px] text-[#adc69a]" htmlFor="email">Email</label>
 						<div className="mb-3 flex h-11 items-center rounded-full border-2 border-[#B5C99A] px-4 text-[#B5C99A] focus-within:border-[#296503]">
