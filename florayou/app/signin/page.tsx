@@ -17,8 +17,8 @@ export default function SigninPage() {
 					<span className="absolute right-[7%] top-[55%] rotate-90 text-[30px] tracking-[0.18em] text-white/90" style={{ fontFamily: '"Playfair Display", serif' }}>Flora You.</span>
 				</div>
 				<div className="order-2 flex flex-col items-center justify-center px-7 py-10 sm:order-2 sm:px-10 sm:py-8">
-					<h1 className="mb-1 text-[48px] font-normal tracking-[-0.02em] text-[#296503]">Create Account</h1>
-					<form className="flex w-full max-w-[300px] flex-col" aria-label="Login">
+					<h1 className="mb-1 mr-10 text-[48px] font-normal tracking-[-0.02em] text-[#296503]">Create Account</h1>
+					<form className="mr-10 flex w-full max-w-[300px] flex-col" aria-label="Login">
 						<label className="mb-0.5 text-[20px] text-[#adc69a]" htmlFor="signin-email">Email</label>
 						<div className="mb-3 flex h-11 items-center rounded-full border-2 border-[#B5C99A] px-4 text-[#B5C99A] focus-within:border-[#296503]">
 							<svg className="mr-2 h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
