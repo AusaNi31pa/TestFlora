@@ -1,7 +1,11 @@
 export default function LoginPage() {
 	return (
-		<main className="flex min-h-screen items-center justify-center bg-[#f8f7f1] px-8 py-8 text-[#285b0f] sm:px-8">
-			<section className="grid w-full max-w-[880px] overflow-hidden rounded-[19px] border border-[#bdd09d] bg-white shadow-[0_8px_30px_rgba(68,91,47,0.06)] sm:min-h-[550px] sm:grid-cols-[1fr_1.02fr]" aria-label="Login form">
+		<main className="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-white px-8 py-8 text-[#285b0f] sm:px-8">
+			<div className="pointer-events-none absolute -left-32 top-[-12%] h-96 w-96 rounded-full bg-[#FFD478]/40 blur-[100px]" />
+			<div className="pointer-events-none absolute right-[-12%] top-[4%] h-[28rem] w-[28rem] rounded-full bg-[#B5C99A]/40 blur-[110px]" />
+			<div className="pointer-events-none absolute bottom-[-18%] left-[2%] h-[28rem] w-[28rem] rounded-full bg-[#B5C99A]/40 blur-[110px]" />
+			<div className="pointer-events-none absolute bottom-[-16%] right-[6%] h-96 w-96 rounded-full bg-[#FFD478]/40 blur-[100px]" />
+			<section className="relative z-10 grid w-full max-w-[880px] overflow-hidden rounded-[19px] border border-[#bdd09d] bg-white shadow-[0_8px_30px_rgba(68,91,47,0.06)] sm:min-h-[550px] sm:grid-cols-[1.02fr_1fr]" aria-label="Login form">
 				<div className="flex flex-col items-center justify-center px-7 py-10 sm:px-10 sm:py-8">
 					<h1 className="mb-6 text-[48px] font-normal tracking-[-0.02em] text-[#296503]">LOGIN</h1>
 					<form className="flex w-full max-w-[300px] flex-col" aria-label="Login">
@@ -28,15 +32,15 @@ export default function LoginPage() {
 						</label>
 						<button className="mx-auto mt-2 h-10 w-[120px] rounded-full bg-gradient-to-r from-[#296503] to-[#B5C99A] text-[18px] text-white shadow-sm transition hover:brightness-95" type="submit">Login</button>
 					</form>
-					<a className="mt-2 text-[14px] text-[#296503] underline-offset-2 hover:underline" href="#create-account">Create Your Account</a>
+					<a className="mt-2 text-[14px] text-[#296503] underline-offset-2 hover:underline" href="/signin">Create Your Account</a>
 				</div>
 				<div className="relative mx-auto h-[280px] w-[260px] self-center sm:mx-0 sm:h-full sm:w-full" aria-label="Floral arrangement">
 					<div className="absolute left-[10%] top-[6%] z-0 h-[90%] w-[58%] rounded-[120px] border-2 border-[#b7cc9b]" />
 					<div className="absolute inset-y-0 left-50 w-[43%] h-[85%] rounded-br-[150px] rounded-bl-[150px] bg-[#b7cc9b]" />
 					<div className="absolute left-[14%] top-[8%] z-10 h-[85%] w-[50%] overflow-hidden rounded-[120px] p-2">
-						<div className="h-full w-full rounded-[120px] bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=500&q=85')" }} />
+						<div className="h-full w-full rounded-[120px] bg-cover bg-center" style={{ backgroundImage: "url('https://i.pinimg.com/736x/4f/5e/e5/4f5ee5b9d8d100b30e4ebc3f50c282c4.jpg')" }} />
 					</div>
-					<div className="absolute right-[27%] top-[20%] h-[105px] w-px bg-white" />
+					<div className="absolute right-[27%] top-[20%] h-[110px] w-px bg-white" />
 					<img className="absolute right-[20.3%] top-[12%] h-10 w-15 object-cover opacity-90" src="/Logo.png" alt="" aria-hidden="true" />
 					<span className="absolute right-[7%] top-[55%] rotate-90 text-[30px] tracking-[0.18em] text-white/90" style={{ fontFamily: '"Playfair Display", serif' }}>Flora You.</span>
 				</div>
