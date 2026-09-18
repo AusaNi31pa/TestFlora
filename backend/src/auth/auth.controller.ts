@@ -3,11 +3,16 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthDto } from './dto/auth.dto';
+import { Response } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @ApiOperation({ summary: 'สมัครสมาชิกด้วย Email และ Password' })
   @ApiBody({ type: AuthDto })
@@ -35,8 +40,25 @@ export class AuthController {
   @ApiOperation({ summary: 'Google Callback (ระบบใช้ภายใน)' })
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  googleAuthRedirect(@Req() req: any) {
-    return this.authService.login(req.user);
+  async googleAuthRedirect(@Req() req: any, @Res() res: Response) {
+    const authData = await this.authService.login(req.user);
+    const frontendUrl = this.configService.get<string>('FRONTEND_URL');
+
+    res.cookie('access_token', authData.access_token, {
+      httpOnly: true, 
+      secure: false, 
+      sameSite: 'lax', 
+      maxAge: 15 * 60 * 1000, 
+    });
+
+    res.cookie('refresh_token', authData.refresh_token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.redirect(`${frontendUrl}/home`);
   }
 
   @ApiBearerAuth()
