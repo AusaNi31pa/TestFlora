@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 const emailPattern = '^[^\\s@]+@[^\\s@]+\\.com$';
@@ -57,6 +58,13 @@ export default function SigninPage() {
 			<div className="pointer-events-none absolute bottom-[-18%] left-[2%] h-[28rem] w-[28rem] rounded-full bg-[#B5C99A]/40 blur-[110px]" />
 			<div className="pointer-events-none absolute bottom-[-16%] right-[6%] h-96 w-96 rounded-full bg-[#FFD478]/40 blur-[100px]" />
 			<section className="relative z-10 grid w-full max-w-[880px] overflow-hidden rounded-[19px] border border-[#bdd09d] bg-white shadow-[0_8px_30px_rgba(68,91,47,0.06)] sm:min-h-[550px] sm:grid-cols-[1.02fr_1fr]" aria-label="Login form">
+				<Link className="absolute right-5 top-4 z-20 inline-flex items-center gap-1 text-[13px] text-[#6b9c4c] transition hover:text-[#296503]" href="/login">
+					<svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+						<path d="M19 12H5" />
+						<path d="m12 19-7-7 7-7" />
+					</svg>
+					Back to Login
+				</Link>
 				<div className="relative order-1 mx-auto h-[280px] w-[260px] self-center sm:order-1 sm:mx-0 sm:h-full sm:w-full" aria-label="Floral arrangement">
 					<div className="absolute left-[10%] top-[6%] z-0 h-[90%] w-[58%] rounded-[120px] border-2 border-[#b7cc9b]" />
 					<div className="absolute inset-y-0 left-50 h-[85%] w-[43%] rounded-bl-[150px] rounded-br-[150px] bg-[#b7cc9b]" />
