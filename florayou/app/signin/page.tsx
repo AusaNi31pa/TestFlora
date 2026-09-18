@@ -1,4 +1,31 @@
+'use client';
+
+import { FormEvent, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+const emailPattern = '^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$';
+const passwordPattern = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z\\d]).{8,}$';
+
 export default function SigninPage() {
+	const router = useRouter();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+	const confirmPasswordRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		confirmPasswordRef.current?.setCustomValidity(
+			confirmPassword && confirmPassword !== password ? 'Passwords do not match' : '',
+		);
+	}, [password, confirmPassword]);
+
+	function handleSubmit(event: FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		if (!event.currentTarget.reportValidity()) return;
+
+		router.push('/login');
+	}
+
 	return (
 		<main className="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-white px-8 py-8 text-[#285b0f] sm:px-8">
 			<div className="pointer-events-none absolute -left-32 top-[-12%] h-96 w-96 rounded-full bg-[#FFD478]/40 blur-[100px]" />
@@ -18,14 +45,14 @@ export default function SigninPage() {
 				</div>
 				<div className="order-2 flex flex-col items-center justify-center px-7 py-10 sm:order-2 sm:px-10 sm:py-8">
 					<h1 className="mb-1 mr-10 text-[48px] font-normal tracking-[-0.02em] text-[#296503]">Create Account</h1>
-					<form className="mr-10 flex w-full max-w-[300px] flex-col" aria-label="Login">
+					<form className="mr-10 flex w-full max-w-[300px] flex-col" aria-label="Create account" onSubmit={handleSubmit}>
 						<label className="mb-0.5 text-[20px] text-[#adc69a]" htmlFor="signin-email">Email</label>
 						<div className="mb-3 flex h-11 items-center rounded-full border-2 border-[#B5C99A] px-4 text-[#B5C99A] focus-within:border-[#296503]">
 							<svg className="mr-2 h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
 								<rect x="3" y="5" width="18" height="14" rx="2" />
 								<path d="m4 7 8 6 8-6" />
 							</svg>
-							<input className="min-w-0 flex-1 bg-transparent text-[12px] text-[#607c4e] outline-none placeholder:text-[#d2dfc7]" id="signin-email" name="email" type="email" placeholder="Enter Your Email" autoComplete="email" required />
+							<input className="min-w-0 flex-1 bg-transparent text-[12px] text-[#607c4e] outline-none placeholder:text-[#d2dfc7]" id="signin-email" name="email" type="email" placeholder="Enter Your Email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} pattern={emailPattern} title="Enter a valid email such as name@example.com" required />
 						</div>
 						<label className="mb-0.5 text-[20px] text-[#B5C99A]" htmlFor="signin-password">Password</label>
 						<div className="flex h-11 items-center rounded-full border-2 border-[#B5C99A] px-4 text-[#B5C99A] focus-within:border-[#6b9c4c]">
@@ -34,7 +61,7 @@ export default function SigninPage() {
 								<path d="M8 10V7a4 4 0 0 1 8 0v3" />
 								<circle cx="12" cy="15" r="1" fill="currentColor" stroke="none" />
 							</svg>
-							<input className="min-w-0 flex-1 bg-transparent text-[12px] text-[#607c4e] outline-none placeholder:text-[#d2dfc7]" id="signin-password" name="password" type="password" placeholder="Enter Your Password" autoComplete="current-password" required />
+							<input className="min-w-0 flex-1 bg-transparent text-[12px] text-[#607c4e] outline-none placeholder:text-[#d2dfc7]" id="signin-password" name="password" type="password" placeholder="Enter Your Password" autoComplete="new-password" minLength={8} value={password} onChange={(event) => setPassword(event.target.value)} pattern={passwordPattern} title="Use at least 8 characters with uppercase, lowercase, number, and special character" required />
 						</div>
 						<label className="mb-0.5 mt-3 text-[20px] text-[#B5C99A]" htmlFor="signin-confirm-password">Confirm Password</label>
 						<div className="flex h-11 items-center rounded-full border-2 border-[#B5C99A] px-4 text-[#B5C99A] focus-within:border-[#6b9c4c]">
@@ -43,7 +70,7 @@ export default function SigninPage() {
 								<path d="M8 10V7a4 4 0 0 1 8 0v3" />
 								<circle cx="12" cy="15" r="1" fill="currentColor" stroke="none" />
 							</svg>
-							<input className="min-w-0 flex-1 bg-transparent text-[12px] text-[#607c4e] outline-none placeholder:text-[#d2dfc7]" id="signin-confirm-password" name="confirmPassword" type="password" placeholder="Confirm Your Password" autoComplete="new-password" required />
+							<input ref={confirmPasswordRef} className="min-w-0 flex-1 bg-transparent text-[12px] text-[#607c4e] outline-none placeholder:text-[#d2dfc7]" id="signin-confirm-password" name="confirmPassword" type="password" placeholder="Confirm Your Password" autoComplete="new-password" minLength={8} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} pattern={passwordPattern} title="Password confirmation must match and meet the password requirements" required />
 						</div>
 						<button className="mx-auto mt-3 h-10 w-[120px] rounded-full bg-gradient-to-r from-[#296503] to-[#B5C99A] text-[18px] text-white shadow-sm transition hover:brightness-95" type="submit">Sign In</button>
 					</form>

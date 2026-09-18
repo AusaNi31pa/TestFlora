@@ -1,4 +1,46 @@
+'use client';
+
+import { FormEvent, useEffect, useState } from 'react';
+
+const emailPattern = '^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$';
+const passwordPattern = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z\\d]).{8,}$';
+const rememberedCredentialsKey = 'flora-you-remembered-credentials';
+
+type RememberedCredentials = {
+	email: string;
+	password: string;
+};
+
 export default function LoginPage() {
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [remember, setRemember] = useState(false);
+
+	useEffect(() => {
+		const savedCredentials = localStorage.getItem(rememberedCredentialsKey);
+		if (!savedCredentials) return;
+
+		try {
+			const credentials = JSON.parse(savedCredentials) as RememberedCredentials;
+			setEmail(credentials.email ?? '');
+			setPassword(credentials.password ?? '');
+			setRemember(true);
+		} catch {
+			localStorage.removeItem(rememberedCredentialsKey);
+		}
+	}, []);
+
+	function handleSubmit(event: FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		if (!event.currentTarget.reportValidity()) return;
+
+		if (remember) {
+			localStorage.setItem(rememberedCredentialsKey, JSON.stringify({ email, password }));
+		} else {
+			localStorage.removeItem(rememberedCredentialsKey);
+		}
+	}
+
 	return (
 		<main className="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-white px-8 py-8 text-[#285b0f] sm:px-8">
 			<div className="pointer-events-none absolute -left-32 top-[-12%] h-96 w-96 rounded-full bg-[#FFD478]/40 blur-[100px]" />
@@ -8,14 +50,14 @@ export default function LoginPage() {
 			<section className="relative z-10 grid w-full max-w-[880px] overflow-hidden rounded-[19px] border border-[#bdd09d] bg-white shadow-[0_8px_30px_rgba(68,91,47,0.06)] sm:min-h-[550px] sm:grid-cols-[1.02fr_1fr]" aria-label="Login form">
 				<div className="flex flex-col items-center justify-center px-7 py-10 sm:px-10 sm:py-8">
 					<h1 className="mb-6 ml-10 text-[48px] font-normal tracking-[-0.02em] text-[#296503]">LOGIN</h1>
-					<form className="ml-10 flex w-full max-w-[300px] flex-col" aria-label="Login">
+					<form className="ml-10 flex w-full max-w-[300px] flex-col" aria-label="Login" onSubmit={handleSubmit}>
 						<label className="mb-0.5 text-[20px] text-[#adc69a]" htmlFor="email">Email</label>
 						<div className="mb-3 flex h-11 items-center rounded-full border-2 border-[#B5C99A] px-4 text-[#B5C99A] focus-within:border-[#296503]">
 							<svg className="mr-2 h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
 								<rect x="3" y="5" width="18" height="14" rx="2" />
 								<path d="m4 7 8 6 8-6" />
 							</svg>
-							<input className="min-w-0 flex-1 bg-transparent text-[12px] text-[#607c4e] outline-none placeholder:text-[#d2dfc7]" id="email" name="email" type="email" placeholder="Enter Your Email" autoComplete="email" required />
+							<input className="min-w-0 flex-1 bg-transparent text-[12px] text-[#607c4e] outline-none placeholder:text-[#d2dfc7]" id="email" name="email" type="email" placeholder="Enter Your Email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} pattern={emailPattern} title="Enter a valid email such as name@example.com" required />
 						</div>
 						<label className="mb-0.5 text-[20px] text-[#B5C99A]" htmlFor="password">Password</label>
 						<div className="flex h-11 items-center rounded-full border-2 border-[#B5C99A] px-4 text-[#B5C99A] focus-within:border-[#6b9c4c]">
@@ -24,11 +66,11 @@ export default function LoginPage() {
 								<path d="M8 10V7a4 4 0 0 1 8 0v3" />
 								<circle cx="12" cy="15" r="1" fill="currentColor" stroke="none" />
 							</svg>
-							<input className="min-w-0 flex-1 bg-transparent text-[12px] text-[#607c4e] outline-none placeholder:text-[#d2dfc7]" id="password" name="password" type="password" placeholder="Enter Your Password" autoComplete="current-password" required />
+							<input className="min-w-0 flex-1 bg-transparent text-[12px] text-[#607c4e] outline-none placeholder:text-[#d2dfc7]" id="password" name="password" type="password" placeholder="Enter Your Password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} pattern={passwordPattern} title="Use at least 8 characters with uppercase, lowercase, number, and special character" required />
 						</div>
 						<label className="mt-3 ml-3 flex items-center gap-1 text-[10px] text-[#296503]">
-							<input className="h-3 w-3 mb-1 accent-[#4b891d]" type="checkbox" name="remember" />
-							<span>Forgot Password?</span>
+							<input className="h-3 w-3 mb-1 accent-[#4b891d]" type="checkbox" name="remember" checked={remember} onChange={(event) => setRemember(event.target.checked)} />
+							<span>Remember Password</span>
 						</label>
 						<button className="mx-auto mt-2 h-10 w-[120px] rounded-full bg-gradient-to-r from-[#296503] to-[#B5C99A] text-[18px] text-white shadow-sm transition hover:brightness-95" type="submit">Login</button>
 					</form>
